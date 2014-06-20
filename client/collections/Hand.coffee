@@ -3,9 +3,21 @@ class window.Hand extends Backbone.Collection
   model: Card
 
   initialize: (array, @deck, @isDealer) ->
-
+  
   hit: ->
-    @add(@deck.pop()).last()
+    @add(@deck.pop())
+    newScore = @scores()
+    console.log newScore
+    hasAce = (newScore.length is 2)
+    if not hasAce and newScore[0] < 22
+      @last()
+    else if hasAce and newScore[1] < 22
+      @last()
+    else if hasAce and newScore[0] < 22
+      @last()
+    else
+      alert "you went over 21. Sorry bro."
+
 
   scores: ->
     # The scores are an array of potential scores.
@@ -15,6 +27,8 @@ class window.Hand extends Backbone.Collection
       memo or card.get('value') is 1
     , false
     score = @reduce (score, card) ->
-      score + if card.get 'revealed' then card.get 'value' else 0
+      score + card.get 'value'
+      # will handle the revealing of a card later
+      # score + if card.get 'revealed' then card.get 'value' else 0
     , 0
     if hasAce then [score, score + 10] else [score]
