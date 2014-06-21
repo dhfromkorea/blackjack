@@ -2,8 +2,8 @@ class window.Hand extends Backbone.Collection
 
   model: Card
 
-  initialize: (array, @deck, @isDealer) ->
-  
+  initialize: (models, @deck, @isDealer) ->
+
   hit: ->
     @add(@deck.pop())
     newScore = @scores()
@@ -15,8 +15,14 @@ class window.Hand extends Backbone.Collection
     else if hasAce and newScore[0] < 22
       @last()
   
+  username: (@username) ->
+    @trigger('username', @)
+
   stand: ->
-    @.trigger('stand', @)
+    @trigger('stand', @)
+
+  restart: ->
+    @trigger('restart', @)
 
   scores: ->
     # The scores are an array of potential scores.

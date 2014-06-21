@@ -1,9 +1,9 @@
 .card {
   float: left;
   border: solid 1px black;
-  width: 100px;
+  width: 120px;
   border-radius: 5px;
-  height: 140px;
+  height: 167px;
   margin-right: 20px;
 }
 
@@ -13,4 +13,21 @@
 
 .hand {
   overflow: auto;
+  margin: 0 auto 50px;
+  width: 60%;
+  min-width: 500px;
+}
+
+.bg-img {
+  background: url('../img/casino_green.png') 100% 100%;
+}
+.hand-container {
+	text-align: center;
+	margin: 7% 10%;
+}
+.button-player {
+	margin: 0 auto;
+}
+.player-hand-container {
+
 }
