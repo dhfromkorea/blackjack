@@ -7,7 +7,6 @@ class window.Hand extends Backbone.Collection
   hit: ->
     @add(@deck.pop())
     newScore = @scores()
-    console.log newScore
     hasAce = (newScore.length is 2)
     if not hasAce and newScore[0] < 22
       @last()
@@ -15,9 +14,9 @@ class window.Hand extends Backbone.Collection
       @last()
     else if hasAce and newScore[0] < 22
       @last()
-    else
-      alert "you went over 21. Sorry bro."
-
+  
+  stand: ->
+    @.trigger('stand', @)
 
   scores: ->
     # The scores are an array of potential scores.
