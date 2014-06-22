@@ -21,13 +21,17 @@
 .bg-img {
   background: url('../img/casino_green.png') 100% 100%;
 }
-.hand-container {
+.play-board {
 	text-align: center;
-	margin: 7% 10%;
+	margin-top: 7%;
+}
+.score-board {
+  margin-top: 7%;
+  text-align: center;
 }
 .button-player {
 	margin: 0 auto;
 }
-.player-hand-container {
+/*.player-hand-container {
 
-}
+}*/

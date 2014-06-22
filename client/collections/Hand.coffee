@@ -3,26 +3,28 @@ class window.Hand extends Backbone.Collection
   model: Card
 
   initialize: (models, @deck, @isDealer) ->
+  # every time it takes a new card
+  # it checks whether the score has gone over the limit
+    # @.on 'add', ->
+    #   alert 'hello'
+    #   @bust() if @maxScores() > 21
 
   hit: ->
     @add(@deck.pop())
-    newScore = @scores()
-    hasAce = (newScore.length is 2)
-    if not hasAce and newScore[0] < 22
-      @last()
-    else if hasAce and newScore[1] < 22
-      @last()
-    else if hasAce and newScore[0] < 22
-      @last()
-  
+    newScore = @maxScores()
+    if newScore < 22
+      @last 
+    else
+      @trigger 'bust'
+
   username: (@username) ->
-    @trigger('username', @)
+    @trigger 'username'
 
   stand: ->
-    @trigger('stand', @)
+    @trigger 'stand'
 
   restart: ->
-    @trigger('restart', @)
+    @trigger 'restart'
 
   scores: ->
     # The scores are an array of potential scores.
@@ -37,3 +39,20 @@ class window.Hand extends Backbone.Collection
       # score + if card.get 'revealed' then card.get 'value' else 0
     , 0
     if hasAce then [score, score + 10] else [score]
+  
+  maxScores: ->
+    curScore = @scores()
+    hasAce = curScore.length is 2
+    if not hasAce
+      curScore
+    else if curScore[1] > 21
+      curScore[0]
+    else
+      curScore[1]
+
+  dealerPlay: ->
+    @hit() while @maxScores() < 18
+    if @maxScores() < 22
+      @trigger 'dealerFinish' 
+    else
+      @trigger 'bust'

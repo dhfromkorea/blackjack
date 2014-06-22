@@ -1,7 +1,8 @@
 class window.AppView extends Backbone.View
 
-  template: _.template '<div class="hand-container"><div class="button-player"><button class="pure-button pure-button-primary hit-button">Hit</button><button class="pure-button stand-button">Stand</button><button class="pure-button restart-button">Restart</button></div><div class="player-hand-container"></div><div class="hand-cotainer dealer-hand-container"></div></div>
-  '
+  template: _.template '<div class="play-board pure-u-1-2"><div class="button-player"><button class="pure-button pure-button-primary hit-button">Hit</button><button class="pure-button stand-button">Stand</button><button class="pure-button restart-button">Restart</button></div><div class="player-hand-container"></div><div class="dealer-hand-container"></div></div><div class="score-board pure-u-1-2"></div>'
+  
+  className: 'pure-g'
 
   events:
     "click .hit-button": -> @model.get('playerHand').hit()
@@ -9,7 +10,7 @@ class window.AppView extends Backbone.View
     "click .restart-button": -> @model.get('playerHand').restart()
 
   initialize: ->
-    # console.log @model.get('pickWinner')()
+    # @model.on 'change:playCount', => @render()
     @render()
 
   render: ->
@@ -17,5 +18,7 @@ class window.AppView extends Backbone.View
     @$el.html @template()
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    @$('.score-board').html new ScoreView(collection: @model.get 'scores').el
+
 
 
