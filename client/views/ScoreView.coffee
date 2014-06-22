@@ -1,6 +1,6 @@
 class window.ScoreView extends Backbone.View
 
-  className: 'score-board pure-table' 
+  className: 'pure-table pure-table-odd' 
   
   tagName: 'table'
 

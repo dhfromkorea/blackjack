@@ -32,6 +32,9 @@
 .button-player {
 	margin: 0 auto;
 }
+.disabled {
+  background-color: #444;
+}
 /*.player-hand-container {
 
 }*/

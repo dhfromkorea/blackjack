@@ -35,8 +35,7 @@ class window.Hand extends Backbone.Collection
     , false
     score = @reduce (score, card) ->
       score + card.get 'value'
-      # will handle the revealing of a card later
-      # score + if card.get 'revealed' then card.get 'value' else 0
+      score + if card.get 'revealed' then card.get 'value' else 0
     , 0
     if hasAce then [score, score + 10] else [score]
   
@@ -51,6 +50,7 @@ class window.Hand extends Backbone.Collection
       curScore[1]
 
   dealerPlay: ->
+    @at(0).flip()
     @hit() while @maxScores() < 18
     if @maxScores() < 22
       @trigger 'dealerFinish' 

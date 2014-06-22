@@ -10,7 +10,7 @@ class window.Score extends Backbone.Model
     playerFinalScore: 0
     dealerFinalScore: 0
     result: 'unknown'
-    roundNumber: 1
+    roundNumber: 'new'
 
   initialize: ->
 
@@ -22,22 +22,33 @@ class window.Score extends Backbone.Model
     
     playerFinalScore = @get 'playerFinalScore'
     dealerFinalScore = @get 'dealerFinalScore'
-
-    if dealerScore > 21
+    # out of bounds cases
+    if dealerFinalScore >= 22 and playerFinalScore < 22
       @set 'result', 'victory'
+      @set 'dealerFinalScore', 'busted'
       @trigger 'playerWin'
-    else if playerScore > 21
+    else if playerFinalScore >= 22 and dealerFinalScore < 22
       @set 'result', 'defeat'
+      @set 'playerFinalScore', 'busted'
       @trigger 'playerLost'
-    else if playerScore > dealerScore
+    # black jack
+    else if playerFinalScore is 21 and dealerFinalScore isnt 21
       @set 'result', 'victory'
-      @trigger 'playerWin'
-    else if playerScore < dealerScore
+      @set 'playerFinalScore', 'blackjack'
+    else if dealerFinalScore is 21 and playerFinalScore isnt 21
       @set 'result', 'defeat'
-      @trigger 'playerLost'
-    else
+      @set 'dealerFinalScore', 'blackjack'
+    # draw
+    else if playerFinalScore is dealerFinalScore
       @set 'result', 'draw'
       @trigger 'playerDraw'
+    # the rest of the cases
+    else if playerFinalScore > dealerFinalScore
+      @set 'result', 'victory'
+      @trigger 'playerWin'
+    else if playerFinalScore < dealerFinalScore
+      @set 'result', 'defeat'
+      @trigger 'playerLost'
     @trigger 'winnerChosen'
 
   newGame: ->
